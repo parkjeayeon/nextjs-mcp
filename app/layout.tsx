@@ -49,13 +49,22 @@ export default function RootLayout({
 function NextChatSDKBootstrap({baseUrl}: { baseUrl: string }) {
     return (
         <>
-            <base href={baseUrl}></base>
             <script>{`window.innerBaseUrl = ${JSON.stringify(baseUrl)}`}</script>
             <script>{`window.__isChatGptApp = typeof window.openai !== "undefined";`}</script>
             <script>
                 {"(" +
                     (() => {
                         const baseUrl = window.innerBaseUrl;
+                        const isChatGptApp = window.__isChatGptApp;
+                        const isInIframe = window.self !== window.top;
+                        
+                        // ChatGPT 앱 환경에서만 base 태그 추가
+                        if (isChatGptApp || isInIframe) {
+                            const baseTag = document.createElement('base');
+                            baseTag.href = baseUrl;
+                            document.head.prepend(baseTag);
+                        }
+
                         const htmlElement = document.documentElement;
                         const observer = new MutationObserver((mutations) => {
                             mutations.forEach((mutation) => {
@@ -76,25 +85,23 @@ function NextChatSDKBootstrap({baseUrl}: { baseUrl: string }) {
                         });
 
                         // ChatGPT 앱 환경에서만 history 오버라이드 적용
-                        // 일반 웹사이트에서는 URL이 정상적으로 변경되어야 함
-                        if (window.__isChatGptApp) {
+                        if (isChatGptApp) {
                             const originalReplaceState = history.replaceState;
                             history.replaceState = (s, unused, url) => {
                                 const u = new URL(url ?? "", window.location.href);
                                 const href = u.pathname + u.search + u.hash;
-                                originalReplaceState.call(history, unused, href);
+                                originalReplaceState.call(history, s, unused, href);
                             };
 
                             const originalPushState = history.pushState;
                             history.pushState = (s, unused, url) => {
                                 const u = new URL(url ?? "", window.location.href);
                                 const href = u.pathname + u.search + u.hash;
-                                originalPushState.call(history, unused, href);
+                                originalPushState.call(history, s, unused, href);
                             };
                         }
 
                         const appOrigin = new URL(baseUrl).origin;
-                        const isInIframe = window.self !== window.top;
 
                         window.addEventListener(
                             "click",

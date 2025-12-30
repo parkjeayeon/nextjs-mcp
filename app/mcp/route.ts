@@ -2,16 +2,23 @@ import { baseURL } from "@/baseUrl";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
-// CSP용 도메인 추출 (예: "http://localhost:3000" -> "localhost:3000")
+// CSP용 도메인 추출 (예: "https://example.com" -> "example.com")
 const getHostFromUrl = (url: string) => {
   try {
     return new URL(url).host;
   } catch {
-    return "localhost:3000";
+    return "";
   }
 };
 
-const resourceDomain = getHostFromUrl(baseURL);
+// CSP 설정 - 실제 도메인을 포함해야 앱 제출 가능
+const cspDomain = getHostFromUrl(baseURL);
+const widgetCSP = cspDomain
+  ? {
+      connect_domains: [cspDomain],
+      resource_domains: [cspDomain],
+    }
+  : undefined; // 도메인 추출 실패 시 CSP 생략
 
 const getAppsSdkCompatibleHtml = async (baseUrl: string, path: string) => {
   const result = await fetch(`${baseUrl}${path}`);
@@ -68,10 +75,7 @@ const handler = createMcpHandler(async (server) => {
       _meta: {
         "openai/widgetDescription": contentWidget.description,
         "openai/widgetPrefersBorder": true,
-        "openai/widgetCSP": {
-          connect_domains: [resourceDomain],
-          resource_domains: [resourceDomain],
-        },
+        ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
       },
     },
     async (uri) => ({
@@ -84,10 +88,7 @@ const handler = createMcpHandler(async (server) => {
             "openai/widgetDescription": contentWidget.description,
             "openai/widgetPrefersBorder": true,
             "openai/widgetDomain": contentWidget.widgetDomain,
-            "openai/widgetCSP": {
-              connect_domains: [],
-              resource_domains: [],
-            },
+            ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
           },
         },
       ],
@@ -144,10 +145,7 @@ const handler = createMcpHandler(async (server) => {
       _meta: {
         "openai/widgetDescription": greetWidget.description,
         "openai/widgetPrefersBorder": true,
-        "openai/widgetCSP": {
-          connect_domains: [resourceDomain],
-          resource_domains: [resourceDomain],
-        },
+        ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
       },
     },
     async (uri) => ({
@@ -160,10 +158,7 @@ const handler = createMcpHandler(async (server) => {
             "openai/widgetDescription": greetWidget.description,
             "openai/widgetPrefersBorder": true,
             "openai/widgetDomain": greetWidget.widgetDomain,
-            "openai/widgetCSP": {
-              connect_domains: [],
-              resource_domains: [],
-            },
+            ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
           },
         },
       ],
@@ -229,10 +224,7 @@ const handler = createMcpHandler(async (server) => {
       _meta: {
         "openai/widgetDescription": calculateWidget.description,
         "openai/widgetPrefersBorder": true,
-        "openai/widgetCSP": {
-          connect_domains: [resourceDomain],
-          resource_domains: [resourceDomain],
-        },
+        ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
       },
     },
     async (uri) => ({
@@ -245,10 +237,7 @@ const handler = createMcpHandler(async (server) => {
             "openai/widgetDescription": calculateWidget.description,
             "openai/widgetPrefersBorder": true,
             "openai/widgetDomain": calculateWidget.widgetDomain,
-            "openai/widgetCSP": {
-              connect_domains: [],
-              resource_domains: [],
-            },
+            ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
           },
         },
       ],
@@ -352,10 +341,7 @@ const handler = createMcpHandler(async (server) => {
       _meta: {
         "openai/widgetDescription": timeWidget.description,
         "openai/widgetPrefersBorder": true,
-        "openai/widgetCSP": {
-          connect_domains: [resourceDomain],
-          resource_domains: [resourceDomain],
-        },
+        ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
       },
     },
     async (uri) => ({
@@ -368,10 +354,7 @@ const handler = createMcpHandler(async (server) => {
             "openai/widgetDescription": timeWidget.description,
             "openai/widgetPrefersBorder": true,
             "openai/widgetDomain": timeWidget.widgetDomain,
-            "openai/widgetCSP": {
-              connect_domains: [],
-              resource_domains: [],
-            },
+            ...(widgetCSP && { "openai/widgetCSP": widgetCSP }),
           },
         },
       ],
