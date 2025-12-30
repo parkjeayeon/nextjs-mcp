@@ -29,6 +29,7 @@ export default function RootLayout({
         <NextChatSDKBootstrap baseUrl={baseURL} />
       </head>
       <body
+          suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
