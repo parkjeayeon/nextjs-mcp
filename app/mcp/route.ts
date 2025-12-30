@@ -2,6 +2,17 @@ import { baseURL } from "@/baseUrl";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
+// CSP용 도메인 추출 (예: "http://localhost:3000" -> "localhost:3000")
+const getHostFromUrl = (url: string) => {
+  try {
+    return new URL(url).host;
+  } catch {
+    return "localhost:3000";
+  }
+};
+
+const resourceDomain = getHostFromUrl(baseURL);
+
 const getAppsSdkCompatibleHtml = async (baseUrl: string, path: string) => {
   const result = await fetch(`${baseUrl}${path}`);
   return await result.text();
@@ -58,8 +69,8 @@ const handler = createMcpHandler(async (server) => {
         "openai/widgetDescription": contentWidget.description,
         "openai/widgetPrefersBorder": true,
         "openai/widgetCSP": {
-          connect_domains: [],
-          resource_domains: [],
+          connect_domains: [resourceDomain],
+          resource_domains: [resourceDomain],
         },
       },
     },
@@ -134,8 +145,8 @@ const handler = createMcpHandler(async (server) => {
         "openai/widgetDescription": greetWidget.description,
         "openai/widgetPrefersBorder": true,
         "openai/widgetCSP": {
-          connect_domains: [],
-          resource_domains: [],
+          connect_domains: [resourceDomain],
+          resource_domains: [resourceDomain],
         },
       },
     },
@@ -219,8 +230,8 @@ const handler = createMcpHandler(async (server) => {
         "openai/widgetDescription": calculateWidget.description,
         "openai/widgetPrefersBorder": true,
         "openai/widgetCSP": {
-          connect_domains: [],
-          resource_domains: [],
+          connect_domains: [resourceDomain],
+          resource_domains: [resourceDomain],
         },
       },
     },
@@ -342,8 +353,8 @@ const handler = createMcpHandler(async (server) => {
         "openai/widgetDescription": timeWidget.description,
         "openai/widgetPrefersBorder": true,
         "openai/widgetCSP": {
-          connect_domains: [],
-          resource_domains: [],
+          connect_domains: [resourceDomain],
+          resource_domains: [resourceDomain],
         },
       },
     },

@@ -1,5 +1,4 @@
 "use client";
-
 import { AppsSDKUIProvider } from "@openai/apps-sdk-ui/components/AppsSDKUIProvider"
 import Link from "next/link";
 
