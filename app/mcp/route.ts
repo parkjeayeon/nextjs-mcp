@@ -2,23 +2,22 @@ import { baseURL } from "@/baseUrl";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
-// CSP용 도메인 추출 (예: "https://example.com" -> "example.com")
-const getHostFromUrl = (url: string) => {
+// CSP 설정 - 전체 URL 형식이어야 함 (예: "https://example.vercel.app")
+const getOriginFromUrl = (url: string) => {
   try {
-    return new URL(url).host;
+    return new URL(url).origin; // "https://example.vercel.app"
   } catch {
     return "";
   }
 };
 
-// CSP 설정 - 실제 도메인을 포함해야 앱 제출 가능
-const cspDomain = getHostFromUrl(baseURL);
-const widgetCSP = cspDomain
+const cspOrigin = getOriginFromUrl(baseURL);
+const widgetCSP = cspOrigin
   ? {
-      connect_domains: [cspDomain],
-      resource_domains: [cspDomain],
+      connect_domains: [cspOrigin],
+      resource_domains: [cspOrigin],
     }
-  : undefined; // 도메인 추출 실패 시 CSP 생략
+  : undefined;
 
 const getAppsSdkCompatibleHtml = async (baseUrl: string, path: string) => {
   const result = await fetch(`${baseUrl}${path}`);
