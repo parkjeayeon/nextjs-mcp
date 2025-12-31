@@ -1,10 +1,11 @@
-"use client";
-import { AppsSDKUIProvider } from "@openai/apps-sdk-ui/components/AppsSDKUIProvider"
-import Link from "next/link";
+import type {Metadata} from "next";
+import {ChatgptUIProvider} from "@/components/provider/ChatgptUIProvider";
 
-declare global {
-  interface AppsSDKUIConfig {
-    LinkComponent: typeof Link
+export const metadata:Metadata = {
+  other: {
+    'openai/widgetCSP': JSON.stringify({
+      connect_domains: ['https://refhubs.com']
+    })
   }
 }
 
@@ -16,5 +17,5 @@ export default function WidgetsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <AppsSDKUIProvider linkComponent={Link}>{children}</AppsSDKUIProvider>;
+  return <ChatgptUIProvider>{children}</ChatgptUIProvider>;
 }
