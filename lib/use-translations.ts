@@ -1,25 +1,31 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+import { getMessages, translate, localeMap, type Locale, supportedLocales, fallbackLocale } from "./i18n";
 import { useMemo } from "react";
-import { useContext } from "@openai/apps-sdk-ui";
-import { getMessages, translate, normalizeLocale, localeMap, type Locale } from "./i18n";
 
 export function useTranslations(namespace?: string) {
-  const context = useContext();
+  const searchParams = useSearchParams();
 
-  // ChatGPT 컨텍스트에서 언어 추출
-  // context?.user?.locale 또는 브라우저 언어 사용
+  // 우선순위: URL ?locale= > 브라우저 언어 > 기본값
   const locale = useMemo(() => {
-    const userLocale = context?.user?.locale;
-    if (userLocale) return normalizeLocale(userLocale);
-    
-    // 브라우저 언어 폴백 (클라이언트에서만)
-    if (typeof navigator !== "undefined") {
-      return normalizeLocale(navigator.language);
+    // 1. URL 파라미터에서 locale 확인
+    const urlLocale = searchParams.get("locale");
+    if (urlLocale && supportedLocales.includes(urlLocale as Locale)) {
+      return urlLocale as Locale;
     }
-    
-    return "ko" as Locale;
-  }, [context?.user?.locale]);
+
+    // 2. 브라우저 언어 확인
+    if (typeof navigator !== "undefined") {
+      const browserLang = navigator.language.split("-")[0];
+      if (supportedLocales.includes(browserLang as Locale)) {
+        return browserLang as Locale;
+      }
+    }
+
+    // 3. 기본값
+    return fallbackLocale;
+  }, [searchParams]);
 
   const messages = useMemo(() => getMessages(locale), [locale]);
 
@@ -29,7 +35,7 @@ export function useTranslations(namespace?: string) {
   const t = (key: string, params?: Record<string, string | number>) => {
     const topLevelKeys = ["common", "greet", "calculate", "time"];
     const isAbsoluteKey = topLevelKeys.some((k) => key.startsWith(`${k}.`));
-    
+
     const fullKey = isAbsoluteKey || !namespace ? key : `${namespace}.${key}`;
     return translate(messages, fullKey, params);
   };
@@ -39,4 +45,3 @@ export function useTranslations(namespace?: string) {
 
   return { t, locale, intlLocale, messages };
 }
-

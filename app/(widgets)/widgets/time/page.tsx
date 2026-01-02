@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
 import { useWidgetProps, useMaxHeight, useDisplayMode } from "@/app/hooks";
 import { useTranslations } from "@/lib/use-translations";
@@ -19,7 +19,7 @@ type WidgetProps = {
   };
 } & TimeData;
 
-export default function TimeWidget() {
+function TimeContent() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
@@ -152,5 +152,21 @@ export default function TimeWidget() {
         </p>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950 flex items-center justify-center">
+      <div className="text-white text-xl">Loading...</div>
+    </div>
+  );
+}
+
+export default function TimeWidget() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <TimeContent />
+    </Suspense>
   );
 }

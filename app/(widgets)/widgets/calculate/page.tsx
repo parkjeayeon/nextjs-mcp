@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useWidgetProps, useMaxHeight, useDisplayMode } from "@/app/hooks";
 import { useTranslations } from "@/lib/use-translations";
 
@@ -20,7 +21,7 @@ type WidgetProps = {
   };
 } & CalculateData;
 
-export default function CalculateWidget() {
+function CalculateContent() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
@@ -140,5 +141,21 @@ export default function CalculateWidget() {
         </p>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+      <div className="text-white text-xl">Loading...</div>
+    </div>
+  );
+}
+
+export default function CalculateWidget() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CalculateContent />
+    </Suspense>
   );
 }

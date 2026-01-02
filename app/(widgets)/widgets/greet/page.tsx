@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
 import { useWidgetProps, useMaxHeight, useDisplayMode } from "@/app/hooks";
 import { useTranslations } from "@/lib/use-translations";
@@ -18,7 +19,7 @@ type GreetData = {
   };
 };
 
-export default function GreetWidget() {
+function GreetContent() {
   const props = useWidgetProps<GreetData>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
@@ -104,5 +105,21 @@ export default function GreetWidget() {
         </p>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-violet-950 via-purple-950 to-fuchsia-950 flex items-center justify-center">
+      <div className="text-white text-xl">Loading...</div>
+    </div>
+  );
+}
+
+export default function GreetWidget() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <GreetContent />
+    </Suspense>
   );
 }
