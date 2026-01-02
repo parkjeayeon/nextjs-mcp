@@ -1,0 +1,97 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "tools": "Tools",
+    "useInChatGPT": "Use in ChatGPT",
+    "madeWith": "Made with ChatGPT Apps SDK + Next.js",
+    "appsSdkDocs": "Apps SDK Docs"
+  },
+  "home": {
+    "badge": "ChatGPT Apps SDK Demo",
+    "title": "MCP Tools",
+    "subtitle": "ChatGPT Widget Demo",
+    "description": "Create interactive widgets that run in ChatGPT using Next.js and MCP (Model Context Protocol).",
+    "exploreTools": "Explore Tools",
+    "availableTools": "Available Tools",
+    "toolsDescription": "Call these tools in ChatGPT to see beautiful widget UIs.",
+    "mcpConnection": "MCP Server Connection",
+    "mcpDescription": "Register the MCP server URL below to use this app in ChatGPT.",
+    "mcpEndpoint": "MCP Server Endpoint",
+    "devNote": "For development, use",
+    "tools": {
+      "greet": {
+        "title": "Greet",
+        "description": "Greets in multiple languages (Korean, English, Japanese)"
+      },
+      "calculate": {
+        "title": "Calculator",
+        "description": "A simple calculator for arithmetic operations"
+      },
+      "get_time": {
+        "title": "Current Time",
+        "description": "Shows current time for different timezones"
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "description": "MCP Tools Demo is an example project built with the ChatGPT Apps SDK. It demonstrates how to render interactive widgets within ChatGPT.",
+    "keyFeatures": "Key Features",
+    "techStack": "Tech Stack",
+    "architecture": "Architecture",
+    "systemStructure": "System Structure",
+    "flowDescription": "Flow between ChatGPT, MCP Server, and Widget UI",
+    "features": {
+      "fastResponse": "Fast Response",
+      "fastResponseDesc": "Built with Next.js and Turbopack for fast response times.",
+      "beautifulUI": "Beautiful UI",
+      "beautifulUIDesc": "Each tool has a unique widget UI that renders within ChatGPT.",
+      "security": "Security",
+      "securityDesc": "Widgets are only accessible in the ChatGPT environment and blocked on regular web.",
+      "i18n": "Multi-language",
+      "i18nDesc": "Supports multiple languages including Korean, English, and Japanese."
+    },
+    "tech": {
+      "nextjs": "React Framework",
+      "mcp": "Model Context Protocol",
+      "tailwind": "Styling",
+      "shadcn": "Website UI",
+      "appsUI": "Widget UI",
+      "typescript": "Type Safety"
+    }
+  },
+  "tools": {
+    "title": "Tool List",
+    "description": "MCP tools available in ChatGPT. Each tool has its own unique widget UI.",
+    "parameters": "Parameters",
+    "example": "Usage Example",
+    "examplePrompt": "Try saying this in ChatGPT:",
+    "name": "Name",
+    "type": "Type",
+    "description_col": "Description",
+    "default": "Default",
+    "greet": {
+      "title": "Greet (greet)",
+      "description": "Greets in multiple languages",
+      "param_name": "Name of the person to greet",
+      "param_language": "Greeting language (ko, en, ja)",
+      "example": "\"Say hello to John in Japanese\""
+    },
+    "calculate": {
+      "title": "Calculator (calculate)",
+      "description": "Performs arithmetic operations",
+      "param_operation": "Operation type (add, subtract, multiply, divide)",
+      "param_a": "First number",
+      "param_b": "Second number",
+      "example": "\"Calculate 123 times 456\""
+    },
+    "get_time": {
+      "title": "Current Time (get_time)",
+      "description": "Returns the current time for a specified timezone",
+      "param_timezone": "Timezone",
+      "example": "\"What time is it in Tokyo?\""
+    }
+  }
+}
+

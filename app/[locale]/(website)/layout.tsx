@@ -1,11 +1,43 @@
-import Link from "next/link";
+"use client";
+
+import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { routing, type Locale } from "@/i18n/routing";
+
+function LanguageSwitcher() {
+  const params = useParams();
+  const pathname = usePathname();
+  const currentLocale = (params.locale as Locale) || routing.defaultLocale;
+
+  return (
+    <div className="flex items-center gap-1 border rounded-lg p-1">
+      {routing.locales.map((locale) => (
+        <Link
+          key={locale}
+          href={pathname}
+          locale={locale}
+          className={`px-2 py-1 rounded text-sm font-medium transition-colors ${
+            currentLocale === locale
+              ? "bg-primary text-primary-foreground"
+              : "hover:bg-muted"
+          }`}
+        >
+          {locale.toUpperCase()}
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 export default function WebsiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("common");
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* 네비게이션 */}
@@ -21,27 +53,28 @@ export default function WebsiteLayout({
               href="/"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              홈
+              {t("home")}
             </Link>
             <Link
               href="/about"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              소개
+              {t("about")}
             </Link>
             <Link
               href="/tools"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              도구들
+              {t("tools")}
             </Link>
+            <LanguageSwitcher />
             <Button asChild size="sm">
               <a
                 href="https://chatgpt.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ChatGPT에서 사용하기
+                {t("useInChatGPT")}
               </a>
             </Button>
           </nav>
@@ -59,9 +92,7 @@ export default function WebsiteLayout({
               <span className="text-xl">🛠️</span>
               <span className="font-semibold">MCP Tools Demo</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              ChatGPT Apps SDK + Next.js로 제작됨
-            </p>
+            <p className="text-sm text-muted-foreground">{t("madeWith")}</p>
             <div className="flex gap-4">
               <a
                 href="https://developers.openai.com/apps-sdk/"
@@ -69,7 +100,7 @@ export default function WebsiteLayout({
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                Apps SDK 문서
+                {t("appsSdkDocs")}
               </a>
               <a
                 href="https://github.com"

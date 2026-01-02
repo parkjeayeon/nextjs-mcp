@@ -1,0 +1,97 @@
+{
+  "common": {
+    "home": "홈",
+    "about": "소개",
+    "tools": "도구들",
+    "useInChatGPT": "ChatGPT에서 사용하기",
+    "madeWith": "ChatGPT Apps SDK + Next.js로 제작됨",
+    "appsSdkDocs": "Apps SDK 문서"
+  },
+  "home": {
+    "badge": "ChatGPT Apps SDK 데모",
+    "title": "MCP Tools",
+    "subtitle": "ChatGPT 위젯 데모",
+    "description": "Next.js와 MCP(Model Context Protocol)를 사용하여 ChatGPT에서 실행되는 인터랙티브 위젯을 만들어보세요.",
+    "exploreTools": "도구 살펴보기",
+    "availableTools": "사용 가능한 도구들",
+    "toolsDescription": "ChatGPT에서 아래 도구들을 호출하면 예쁜 위젯 UI가 표시됩니다.",
+    "mcpConnection": "MCP 서버 연결",
+    "mcpDescription": "ChatGPT에서 이 앱을 사용하려면 아래 MCP 서버 URL을 등록하세요.",
+    "mcpEndpoint": "MCP 서버 엔드포인트",
+    "devNote": "개발 환경에서는",
+    "tools": {
+      "greet": {
+        "title": "인사하기",
+        "description": "다국어로 인사를 합니다 (한국어, 영어, 일본어)"
+      },
+      "calculate": {
+        "title": "계산기",
+        "description": "사칙연산을 수행하는 간단한 계산기"
+      },
+      "get_time": {
+        "title": "현재 시간",
+        "description": "전 세계 타임존별 현재 시간을 알려드립니다"
+      }
+    }
+  },
+  "about": {
+    "title": "소개",
+    "description": "MCP Tools Demo는 ChatGPT Apps SDK를 활용하여 만든 예제 프로젝트입니다. ChatGPT 내에서 인터랙티브한 위젯을 렌더링하는 방법을 보여줍니다.",
+    "keyFeatures": "주요 기능",
+    "techStack": "기술 스택",
+    "architecture": "아키텍처",
+    "systemStructure": "시스템 구성",
+    "flowDescription": "ChatGPT와 MCP 서버, 위젯 UI의 동작 흐름",
+    "features": {
+      "fastResponse": "빠른 응답",
+      "fastResponseDesc": "Next.js와 Turbopack으로 빌드되어 빠른 응답 속도를 제공합니다.",
+      "beautifulUI": "아름다운 UI",
+      "beautifulUIDesc": "각 도구마다 고유한 위젯 UI가 ChatGPT 내에서 렌더링됩니다.",
+      "security": "보안",
+      "securityDesc": "위젯은 ChatGPT 환경에서만 접근 가능하며, 일반 웹에서는 차단됩니다.",
+      "i18n": "다국어 지원",
+      "i18nDesc": "한국어, 영어, 일본어 등 다양한 언어를 지원합니다."
+    },
+    "tech": {
+      "nextjs": "React 프레임워크",
+      "mcp": "Model Context Protocol",
+      "tailwind": "스타일링",
+      "shadcn": "웹사이트 UI",
+      "appsUI": "위젯 UI",
+      "typescript": "타입 안전성"
+    }
+  },
+  "tools": {
+    "title": "도구 목록",
+    "description": "ChatGPT에서 사용할 수 있는 MCP 도구들입니다. 각 도구는 고유한 위젯 UI를 가지고 있습니다.",
+    "parameters": "파라미터",
+    "example": "사용 예시",
+    "examplePrompt": "ChatGPT에서 이렇게 말해보세요:",
+    "name": "이름",
+    "type": "타입",
+    "description_col": "설명",
+    "default": "기본값",
+    "greet": {
+      "title": "인사하기 (greet)",
+      "description": "다국어로 인사를 합니다",
+      "param_name": "인사할 사람의 이름",
+      "param_language": "인사 언어 (ko, en, ja)",
+      "example": "\"홍길동에게 영어로 인사해줘\""
+    },
+    "calculate": {
+      "title": "계산기 (calculate)",
+      "description": "사칙연산을 수행합니다",
+      "param_operation": "연산 종류 (add, subtract, multiply, divide)",
+      "param_a": "첫 번째 숫자",
+      "param_b": "두 번째 숫자",
+      "example": "\"123 곱하기 456 계산해줘\""
+    },
+    "get_time": {
+      "title": "현재 시간 (get_time)",
+      "description": "지정한 타임존의 현재 시간을 반환합니다",
+      "param_timezone": "타임존",
+      "example": "\"도쿄 현재 시간 알려줘\""
+    }
+  }
+}
+

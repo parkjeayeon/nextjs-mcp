@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,32 +9,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-const tools = [
-  {
-    id: "greet",
-    emoji: "👋",
-    title: "인사하기",
-    description: "다국어로 인사를 합니다 (한국어, 영어, 일본어)",
-    gradient: "from-violet-500 to-purple-500",
-  },
-  {
-    id: "calculate",
-    emoji: "🧮",
-    title: "계산기",
-    description: "사칙연산을 수행하는 간단한 계산기",
-    gradient: "from-emerald-500 to-teal-500",
-  },
-  {
-    id: "get_time",
-    emoji: "🕐",
-    title: "현재 시간",
-    description: "전 세계 타임존별 현재 시간을 알려드립니다",
-    gradient: "from-indigo-500 to-blue-500",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export default function HomePage() {
+  const t = useTranslations("home");
+  const tc = useTranslations("common");
+
+  const tools = [
+    {
+      id: "greet",
+      emoji: "👋",
+      title: t("tools.greet.title"),
+      description: t("tools.greet.description"),
+      gradient: "from-violet-500 to-purple-500",
+    },
+    {
+      id: "calculate",
+      emoji: "🧮",
+      title: t("tools.calculate.title"),
+      description: t("tools.calculate.description"),
+      gradient: "from-emerald-500 to-teal-500",
+    },
+    {
+      id: "get_time",
+      emoji: "🕐",
+      title: t("tools.get_time.title"),
+      description: t("tools.get_time.description"),
+      gradient: "from-indigo-500 to-blue-500",
+    },
+  ];
+
   return (
     <div>
       {/* 히어로 섹션 */}
@@ -48,20 +54,19 @@ export default function HomePage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              ChatGPT Apps SDK 데모
+              {t("badge")}
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
               <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
-                MCP Tools
+                {t("title")}
               </span>
               <br />
-              ChatGPT 위젯 데모
+              {t("subtitle")}
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Next.js와 MCP(Model Context Protocol)를 사용하여 ChatGPT에서
-              실행되는 인터랙티브 위젯을 만들어보세요.
+              {t("description")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -71,11 +76,11 @@ export default function HomePage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  ChatGPT에서 사용하기
+                  {tc("useInChatGPT")}
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/tools">도구 살펴보기</Link>
+                <Link href="/tools">{t("exploreTools")}</Link>
               </Button>
             </div>
           </div>
@@ -86,9 +91,9 @@ export default function HomePage() {
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">사용 가능한 도구들</h2>
+            <h2 className="text-3xl font-bold mb-4">{t("availableTools")}</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              ChatGPT에서 아래 도구들을 호출하면 예쁜 위젯 UI가 표시됩니다.
+              {t("toolsDescription")}
             </p>
           </div>
 
@@ -125,27 +130,24 @@ export default function HomePage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🔌</span> MCP 서버 연결
+                  <span>🔌</span> {t("mcpConnection")}
                 </CardTitle>
-                <CardDescription>
-                  ChatGPT에서 이 앱을 사용하려면 아래 MCP 서버 URL을 등록하세요.
-                </CardDescription>
+                <CardDescription>{t("mcpDescription")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-background rounded-lg p-4 border">
                   <p className="text-sm text-muted-foreground mb-2">
-                    MCP 서버 엔드포인트
+                    {t("mcpEndpoint")}
                   </p>
                   <code className="text-lg font-mono break-all">
                     https://your-domain.com/mcp
                   </code>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  개발 환경에서는{" "}
+                  {t("devNote")}{" "}
                   <code className="bg-muted px-2 py-0.5 rounded">
                     http://localhost:3000/mcp
-                  </code>{" "}
-                  를 사용하세요.
+                  </code>
                 </p>
               </CardContent>
             </Card>
