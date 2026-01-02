@@ -1,63 +1,24 @@
 // widgets용 번역 유틸리티
-// JSON 파일과 동일한 구조를 유지하여 동기화 가능
+// next-intl과 동일한 JSON 파일을 공유합니다
+
+import koMessages from "@/messages/ko.json";
+import enMessages from "@/messages/en.json";
+import jaMessages from "@/messages/ja.json";
 
 export type WidgetLocale = "ko" | "en" | "ja";
 
-// widgets 번역 데이터 (messages/*.json의 widgets 섹션과 동기화)
-const widgetMessages = {
-  ko: {
-    mcpTool: "MCP 도구",
-    greet: {},
-    calculate: {
-      add: "더하기",
-      subtract: "빼기",
-      multiply: "곱하기",
-      divide: "나누기",
-      first: "첫 번째",
-      second: "두 번째",
-    },
-    time: {
-      currentTime: "현재 시간",
-      toolCallTime: "도구 호출 시점",
-    },
-  },
-  en: {
-    mcpTool: "MCP Tool",
-    greet: {},
-    calculate: {
-      add: "Add",
-      subtract: "Subtract",
-      multiply: "Multiply",
-      divide: "Divide",
-      first: "First",
-      second: "Second",
-    },
-    time: {
-      currentTime: "Current Time",
-      toolCallTime: "Tool call time",
-    },
-  },
-  ja: {
-    mcpTool: "MCPツール",
-    greet: {},
-    calculate: {
-      add: "足し算",
-      subtract: "引き算",
-      multiply: "掛け算",
-      divide: "割り算",
-      first: "1番目",
-      second: "2番目",
-    },
-    time: {
-      currentTime: "現在時刻",
-      toolCallTime: "ツール呼び出し時点",
-    },
-  },
+type Messages = typeof koMessages;
+
+const messages: Record<WidgetLocale, Messages | typeof jaMessages> = {
+  ko: koMessages,
+  en: enMessages,
+  ja: jaMessages,
 };
 
 // widgets 섹션의 번역을 가져옵니다
 export function getWidgetTranslations(locale: WidgetLocale = "ko") {
-  return widgetMessages[locale] || widgetMessages.ko;
+  const msg = messages[locale] || messages.ko;
+  return msg.widgets;
 }
 
 // 특정 키의 번역을 가져옵니다 (fallback 지원)
@@ -68,7 +29,7 @@ export function t(
 ): string {
   const widgets = getWidgetTranslations(locale);
   const keys = key.split(".");
-
+  
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let value: any = widgets;
   for (const k of keys) {
@@ -89,7 +50,7 @@ export function t(
       return typeof koValue === "string" ? koValue : fallback || key;
     }
   }
-
+  
   return typeof value === "string" ? value : fallback || key;
 }
 
@@ -99,3 +60,4 @@ export const localeMap: Record<WidgetLocale, string> = {
   en: "en-US",
   ja: "ja-JP",
 };
+
