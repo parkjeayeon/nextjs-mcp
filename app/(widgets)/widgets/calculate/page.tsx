@@ -1,8 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
 import { useWidgetProps, useMaxHeight, useDisplayMode } from "@/app/hooks";
-import { useTranslations } from "@/lib/use-translations";
+import { useWidgetTranslations } from "@/lib/use-widget-translations";
 
 type CalculateData = {
   operation?: string;
@@ -21,11 +20,11 @@ type WidgetProps = {
   };
 } & CalculateData;
 
-function CalculateContent() {
+export default function CalculateWidget() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
-  const { t } = useTranslations("calculate");
+  const { t } = useWidgetTranslations("calculate");
 
   const data = props?.result?.structuredContent || props;
   const operation = data?.operation || "add";
@@ -141,21 +140,5 @@ function CalculateContent() {
         </p>
       </div>
     </div>
-  );
-}
-
-function LoadingFallback() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
-      <div className="text-white text-xl">Loading...</div>
-    </div>
-  );
-}
-
-export default function CalculateWidget() {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <CalculateContent />
-    </Suspense>
   );
 }
