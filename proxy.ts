@@ -55,6 +55,12 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/:path*",
+  // next-intl 권장 matcher - 정적 파일, API, 내부 경로 제외
+  matcher: [
+    // i18n 처리할 페이지 경로
+    "/",
+    "/(ko|en)/:path*",
+    // 동적 경로 (locale 없는 페이지들)
+    "/((?!_next|api|mcp|widgets|.*\\..*).*)",
+  ],
 };
-
