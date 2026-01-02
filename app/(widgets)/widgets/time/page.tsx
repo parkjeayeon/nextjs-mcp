@@ -83,7 +83,7 @@ export default function TimeWidget() {
                 maxHeight,
                 height: displayMode === "fullscreen" ? maxHeight : undefined,
             }}
-        >
+        >  {JSON.stringify(props, null, 2)}
             <div className="w-full max-w-md">
                 {/* 메인 카드 */}
                 <div className="relative">

@@ -40,7 +40,6 @@ export default function GreetWidget() {
     };
 
     return (
-
         <div
             className="min-h-screen bg-gradient-to-br from-violet-950 via-purple-950 to-fuchsia-950 flex items-center justify-center p-6"
             style={{
@@ -48,6 +47,7 @@ export default function GreetWidget() {
                 height: displayMode === "fullscreen" ? maxHeight : undefined,
             }}
         >
+            {JSON.stringify(props, null, 2)}
             <div className="w-full max-w-md">
                 {/* 메인 카드 */}
                 <div className="relative">

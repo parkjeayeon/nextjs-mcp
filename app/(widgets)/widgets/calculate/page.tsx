@@ -66,7 +66,7 @@ export default function CalculateWidget() {
                 maxHeight,
                 height: displayMode === "fullscreen" ? maxHeight : undefined,
             }}
-        >
+        >  {JSON.stringify(props, null, 2)}
             <div className="w-full max-w-sm">
                 {/* 메인 카드 */}
                 <div className="relative">
