@@ -1,0 +1,19 @@
+{
+  "widgets": {
+    "mcpTool": "MCPツール",
+    "greet": {},
+    "calculate": {
+      "add": "足し算",
+      "subtract": "引き算",
+      "multiply": "掛け算",
+      "divide": "割り算",
+      "first": "1番目",
+      "second": "2番目"
+    },
+    "time": {
+      "currentTime": "現在時刻",
+      "toolCallTime": "ツール呼び出し時点"
+    }
+  }
+}
+

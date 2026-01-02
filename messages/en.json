@@ -92,6 +92,22 @@
       "param_timezone": "Timezone",
       "example": "\"What time is it in Tokyo?\""
     }
+  },
+  "widgets": {
+    "mcpTool": "MCP Tool",
+    "greet": {},
+    "calculate": {
+      "add": "Add",
+      "subtract": "Subtract",
+      "multiply": "Multiply",
+      "divide": "Divide",
+      "first": "First",
+      "second": "Second"
+    },
+    "time": {
+      "currentTime": "Current Time",
+      "toolCallTime": "Tool call time"
+    }
   }
 }
 

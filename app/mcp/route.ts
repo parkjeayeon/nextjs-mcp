@@ -254,14 +254,28 @@ const handler = createMcpHandler(async (server) => {
           .describe("연산 종류"),
         a: z.number().describe("첫 번째 숫자"),
         b: z.number().describe("두 번째 숫자"),
+        language: z
+          .enum(["ko", "en", "ja"])
+          .default("ko")
+          .describe("UI 언어 (ko: 한국어, en: 영어, ja: 일본어)"),
       },
       _meta: widgetMeta(calculateWidget),
     },
-    async ({ operation, a, b }) => {
+    async ({ operation, a, b, language = "ko" }) => {
       let result: number;
       let symbol: string;
       let isError = false;
-      let errorMessage = "";
+      
+      const errorMessages = {
+        ko: "❌ 오류: 0으로 나눌 수 없습니다!",
+        en: "❌ Error: Cannot divide by zero!",
+        ja: "❌ エラー: 0で割ることはできません！",
+      };
+      const resultMessages = {
+        ko: "🧮 계산 결과",
+        en: "🧮 Calculation Result",
+        ja: "🧮 計算結果",
+      };
 
       switch (operation) {
         case "add":
@@ -279,7 +293,6 @@ const handler = createMcpHandler(async (server) => {
         case "divide":
           if (b === 0) {
             isError = true;
-            errorMessage = "❌ 오류: 0으로 나눌 수 없습니다!";
             result = 0;
             symbol = "÷";
           } else {
@@ -294,12 +307,12 @@ const handler = createMcpHandler(async (server) => {
 
       if (isError) {
         return {
-          content: [{ type: "text" as const, text: errorMessage }],
+          content: [{ type: "text" as const, text: errorMessages[language as keyof typeof errorMessages] }],
           isError: true,
         };
       }
 
-      const text = `🧮 계산 결과: ${a} ${symbol} ${b} = ${result}`;
+      const text = `${resultMessages[language as keyof typeof resultMessages]}: ${a} ${symbol} ${b} = ${result}`;
 
       return {
         content: [{ type: "text" as const, text }],
@@ -311,6 +324,7 @@ const handler = createMcpHandler(async (server) => {
           symbol,
           result,
           expression: `${a} ${symbol} ${b}`,
+          language,
           timestamp: new Date().toISOString(),
         },
         _meta: widgetMeta(calculateWidget),
@@ -367,13 +381,34 @@ const handler = createMcpHandler(async (server) => {
       description: "현재 시간을 반환합니다",
       inputSchema: {
         timezone: z.string().default("Asia/Seoul").describe("타임존"),
+        language: z
+          .enum(["ko", "en", "ja"])
+          .default("ko")
+          .describe("UI 언어 (ko: 한국어, en: 영어, ja: 일본어)"),
       },
       _meta: widgetMeta(timeWidget),
     },
-    async ({ timezone = "Asia/Seoul" }) => {
+    async ({ timezone = "Asia/Seoul", language = "ko" }) => {
+      const locales = {
+        ko: "ko-KR",
+        en: "en-US",
+        ja: "ja-JP",
+      };
+      const currentTimeText = {
+        ko: "🕐 현재 시간",
+        en: "🕐 Current Time",
+        ja: "🕐 現在時刻",
+      };
+      const errorText = {
+        ko: "❌ 오류: 잘못된 타임존입니다",
+        en: "❌ Error: Invalid timezone",
+        ja: "❌ エラー: 無効なタイムゾーン",
+      };
+
       try {
         const now = new Date();
-        const formatter = new Intl.DateTimeFormat("ko-KR", {
+        const locale = locales[language as keyof typeof locales] || "ko-KR";
+        const formatter = new Intl.DateTimeFormat(locale, {
           timeZone: timezone,
           year: "numeric",
           month: "long",
@@ -386,7 +421,7 @@ const handler = createMcpHandler(async (server) => {
         });
 
         const formattedTime = formatter.format(now);
-        const text = `🕐 현재 시간 (${timezone}): ${formattedTime}`;
+        const text = `${currentTimeText[language as keyof typeof currentTimeText]} (${timezone}): ${formattedTime}`;
 
         return {
           content: [{ type: "text" as const, text }],
@@ -396,6 +431,7 @@ const handler = createMcpHandler(async (server) => {
             formattedTime,
             isoTime: now.toISOString(),
             timestamp: now.getTime(),
+            language,
           },
           _meta: widgetMeta(timeWidget),
         };
@@ -404,7 +440,7 @@ const handler = createMcpHandler(async (server) => {
           content: [
             {
               type: "text" as const,
-              text: `❌ 오류: 잘못된 타임존입니다 - ${timezone}`,
+              text: `${errorText[language as keyof typeof errorText]} - ${timezone}`,
             },
           ],
           isError: true,

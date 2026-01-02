@@ -3,12 +3,14 @@
 import {useEffect, useState} from "react";
 import {Badge} from "@openai/apps-sdk-ui/components/Badge";
 import {useWidgetProps, useMaxHeight, useDisplayMode} from "@/app/hooks";
+import {t, localeMap, WidgetLocale} from "@/lib/widget-translations";
 
 type TimeData = {
     timezone?: string;
     formattedTime?: string;
     isoTime?: string;
     timestamp?: number;
+    language?: string;
 };
 
 type WidgetProps = {
@@ -27,6 +29,9 @@ export default function TimeWidget() {
     const timezone = data?.timezone || "Asia/Seoul";
     const formattedTime = data?.formattedTime;
     const isoTime = data?.isoTime;
+    const language = (data?.language || "ko") as WidgetLocale;
+    
+    const locale = localeMap[language];
 
     // 실시간 시계 업데이트
     useEffect(() => {
@@ -39,7 +44,7 @@ export default function TimeWidget() {
 
     const formatTime = (date: Date) => {
         try {
-            return new Intl.DateTimeFormat("ko-KR", {
+            return new Intl.DateTimeFormat(locale, {
                 timeZone: timezone,
                 hour: "2-digit",
                 minute: "2-digit",
@@ -53,7 +58,7 @@ export default function TimeWidget() {
 
     const formatDate = (date: Date) => {
         try {
-            return new Intl.DateTimeFormat("ko-KR", {
+            return new Intl.DateTimeFormat(locale, {
                 timeZone: timezone,
                 year: "numeric",
                 month: "long",
@@ -98,7 +103,7 @@ export default function TimeWidget() {
                         <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4">
                             <div className="flex items-center justify-center gap-3">
                                 <span className="text-4xl">🕐</span>
-                                <span className="text-white font-bold text-xl">현재 시간</span>
+                                <span className="text-white font-bold text-xl">{t(language, "time.currentTime")}</span>
                             </div>
                         </div>
 
@@ -120,7 +125,7 @@ export default function TimeWidget() {
                             {formattedTime && (
                                 <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 mb-6">
                                     <p className="text-indigo-300 text-sm text-center">
-                                        📨 도구 호출 시점:{" "}
+                                        📨 {t(language, "time.toolCallTime")}:{" "}
                                         <span className="font-medium">{formattedTime}</span>
                                     </p>
                                 </div>
@@ -147,7 +152,7 @@ export default function TimeWidget() {
 
                 {/* 푸터 */}
                 <p className="text-center text-slate-500 text-sm mt-6">
-                    MCP Tool:{" "}
+                    {t(language, "mcpTool")}:{" "}
                     <code className="bg-slate-800/50 px-2 py-1 rounded">get_time</code>
                 </p>
             </div>

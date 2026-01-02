@@ -2,6 +2,7 @@
 
 import {Badge} from "@openai/apps-sdk-ui/components/Badge";
 import {useWidgetProps, useMaxHeight, useDisplayMode} from "@/app/hooks";
+import {t, WidgetLocale} from "@/lib/widget-translations";
 
 type GreetData = {
     name?: string;
@@ -24,7 +25,7 @@ export default function GreetWidget() {
 
     const data = props?.result?.structuredContent || props;
     const name = data?.name || "Guest";
-    const language = data?.language || "ko";
+    const language = (data?.language || "ko") as WidgetLocale;
     const greeting = data?.greeting || `안녕하세요, ${name}님!`;
 
     const languageEmoji: Record<string, string> = {
@@ -99,7 +100,7 @@ export default function GreetWidget() {
 
                 {/* 푸터 */}
                 <p className="text-center text-slate-500 text-sm mt-6">
-                    MCP Tool:{" "}
+                    {t(language, "mcpTool")}:{" "}
                     <code className="bg-slate-800/50 px-2 py-1 rounded">greet</code>
                 </p>
             </div>

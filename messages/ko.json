@@ -92,6 +92,22 @@
       "param_timezone": "타임존",
       "example": "\"도쿄 현재 시간 알려줘\""
     }
+  },
+  "widgets": {
+    "mcpTool": "MCP 도구",
+    "greet": {},
+    "calculate": {
+      "add": "더하기",
+      "subtract": "빼기",
+      "multiply": "곱하기",
+      "divide": "나누기",
+      "first": "첫 번째",
+      "second": "두 번째"
+    },
+    "time": {
+      "currentTime": "현재 시간",
+      "toolCallTime": "도구 호출 시점"
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import {useWidgetProps, useMaxHeight, useDisplayMode} from "@/app/hooks";
+import {t, WidgetLocale} from "@/lib/widget-translations";
 
 type CalculateData = {
     operation?: string;
@@ -10,6 +11,7 @@ type CalculateData = {
     result?: number;
     expression?: string;
     timestamp?: string;
+    language?: string;
 };
 
 type WidgetProps = {
@@ -30,30 +32,31 @@ export default function CalculateWidget() {
     const symbol = data?.symbol || "+";
     const result = data?.result ?? 0;
     const expression = data?.expression || `${a} ${symbol} ${b}`;
+    const language = (data?.language || "ko") as WidgetLocale;
 
     const operationConfig: Record<
         string,
-        { gradient: string; emoji: string; label: string }
+        { gradient: string; emoji: string; labelKey: string }
     > = {
         add: {
             gradient: "from-emerald-500 via-teal-500 to-cyan-500",
             emoji: "➕",
-            label: "더하기",
+            labelKey: "calculate.add",
         },
         subtract: {
             gradient: "from-rose-500 via-pink-500 to-red-500",
             emoji: "➖",
-            label: "빼기",
+            labelKey: "calculate.subtract",
         },
         multiply: {
             gradient: "from-amber-500 via-orange-500 to-yellow-500",
             emoji: "✖️",
-            label: "곱하기",
+            labelKey: "calculate.multiply",
         },
         divide: {
             gradient: "from-sky-500 via-blue-500 to-indigo-500",
             emoji: "➗",
-            label: "나누기",
+            labelKey: "calculate.divide",
         },
     };
 
@@ -83,7 +86,7 @@ export default function CalculateWidget() {
                             <div className="flex items-center justify-center gap-3">
                                 <span className="text-4xl">{config.emoji}</span>
                                 <span className="text-white font-bold text-xl">
-                    {config.label}
+                    {t(language, config.labelKey)}
                   </span>
                             </div>
                         </div>
@@ -110,7 +113,7 @@ export default function CalculateWidget() {
                                         <span className="text-2xl font-bold text-white">{a}</span>
                                     </div>
                                     <span className="text-xs text-slate-500 uppercase tracking-wider">
-                      첫 번째
+                      {t(language, "calculate.first")}
                     </span>
                                 </div>
 
@@ -127,7 +130,7 @@ export default function CalculateWidget() {
                                         <span className="text-2xl font-bold text-white">{b}</span>
                                     </div>
                                     <span className="text-xs text-slate-500 uppercase tracking-wider">
-                      두 번째
+                      {t(language, "calculate.second")}
                     </span>
                                 </div>
                             </div>
@@ -137,7 +140,7 @@ export default function CalculateWidget() {
 
                 {/* 푸터 */}
                 <p className="text-center text-slate-500 text-sm mt-6">
-                    MCP Tool:{" "}
+                    {t(language, "mcpTool")}:{" "}
                     <code className="bg-slate-800/50 px-2 py-1 rounded">calculate</code>
                 </p>
             </div>
